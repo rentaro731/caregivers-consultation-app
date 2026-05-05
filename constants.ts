@@ -19,7 +19,8 @@ export const EMAIL_REGEX =
 
 export const AUTHENTICATION_ERROR = {
   EMAIL_MESSAGE_SERVER_ERROR: "登録に失敗しました。再度お試しください。",
-  EMAIL_MESSAGE_ALREADY_IN_USE: "このメールアドレスは既に使用されています。",
+  EMAIL_MESSAGE_ALREADY_IN_USE:
+    "メールアドレスまたはパスワードが間違っています。",
   EMAIL_MESSAGE_NETWORK_ERROR:
     "通信エラーが発生しました。インターネット接続を確認してください。",
 };
