@@ -52,7 +52,6 @@ export const Login = () => {
     const validationErrors = validationCheck(inputValues);
     if (Object.keys(validationErrors).length > 0) {
       setInputErrors(validationErrors);
-      console.log(validationErrors);
       setMessage("");
       return;
     }
