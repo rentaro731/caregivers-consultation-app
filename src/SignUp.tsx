@@ -55,7 +55,9 @@ export const SignUp = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+    setFormValues((prev) => ({...prev, [name]: value}))
+    setFormErrors({});
+    setMessage("");
   };
   //ユーザー登録
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -105,7 +107,7 @@ export const SignUp = () => {
   };
 
   const togglePassword = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (

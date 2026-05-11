@@ -27,7 +27,9 @@ export const Login = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setInputValues({ ...inputValues, [name]: value });
+    setInputValues((prev) => ({...prev, [name]: value}))
+    setInputErrors({});
+    setMessage("");
   };
 
   const validationCheck = (values: LoginFormValues) => {
@@ -63,7 +65,8 @@ export const Login = () => {
         inputValues.password,
       );
       setInputValues(LOGIN_INITIAL_VALUES);
-
+      setInputErrors({});
+      setMessage("ログインに成功しました");
       navigate("/postList");
     } catch (error: unknown) {
       if (typeof error === "object" && error !== null && "code" in error) {
@@ -98,7 +101,7 @@ export const Login = () => {
   };
 
   const togglePassword = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
