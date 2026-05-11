@@ -33,12 +33,12 @@ export const Login = () => {
   const validationCheck = (values: LoginFormValues) => {
     const errors: LoginFormErrorType = {};
     if (!values.email) {
-      errors.email = ERROR_MESSAGES.EMAIL_REQUIRED;
+      errors.email = ERROR_MESSAGES.EMAIL_REQUIRED; 
     }
     if (!values.password) {
       errors.password = ERROR_MESSAGES.PASSWORD_REQUIRED;
     }
-    if (!EMAIL_REGEX.test(values.email)) {
+    if (values.email && !EMAIL_REGEX.test(values.email)) {
       errors.email = ERROR_MESSAGES.INVALID_EMAIL;
     }
     if (values.password.length < 6 || values.password.length > 16) {

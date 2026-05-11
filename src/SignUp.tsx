@@ -38,7 +38,7 @@ export const SignUp = () => {
     if (!values.email) {
       errors.email = ERROR_MESSAGES.EMAIL_REQUIRED;
     }
-    if (!EMAIL_REGEX.test(values.email)) {
+    if (values.email && !EMAIL_REGEX.test(values.email)) {
       errors.email = ERROR_MESSAGES.INVALID_EMAIL;
     }
     if (!values.password) {
