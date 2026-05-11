@@ -41,7 +41,7 @@ export const Login = () => {
     if (values.email && !EMAIL_REGEX.test(values.email)) {
       errors.email = ERROR_MESSAGES.INVALID_EMAIL;
     }
-    if (values.password.length < 6 || values.password.length > 16) {
+    if (values.password && (values.password.length < 6 || values.password.length > 16)) {
       errors.password = ERROR_MESSAGES.PASSWORD_NUMBER_LIMIT;
     }
     return errors;

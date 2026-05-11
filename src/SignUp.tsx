@@ -44,7 +44,7 @@ export const SignUp = () => {
     if (!values.password) {
       errors.password = ERROR_MESSAGES.PASSWORD_REQUIRED;
     }
-    if (values.password.length < 6 || values.password.length > 16) {
+    if (values.password && (values.password.length < 6 || values.password.length > 16)) {
       errors.password = ERROR_MESSAGES.PASSWORD_NUMBER_LIMIT;
     }
     if (!values.bio) {
