@@ -6,20 +6,26 @@ import { useNavigate } from "react-router-dom";
 
 import type { SignUpFormValues, FormErrorType } from "../types";
 import {
-  SIGNUP_INITIAL_VALUES,
   ERROR_MESSAGES,
   EMAIL_REGEX,
   AUTHENTICATION_ERROR,
 } from "../constants";
 
+const SIGNUP_INITIAL_VALUES: SignUpFormValues = {
+  name: "",
+  email: "",
+  password: "",
+  bio: "",
+};
+
 export const SignUp = () => {
   const [formValues, setFormValues] = useState<SignUpFormValues>(
     SIGNUP_INITIAL_VALUES,
   );
-  const [sending, setSending] = useState<boolean>(false);
+  const [sending, setSending] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrorType>({});
-  const [message, setMessage] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,13 +38,13 @@ export const SignUp = () => {
     if (!values.email) {
       errors.email = ERROR_MESSAGES.EMAIL_REQUIRED;
     }
-    if (!EMAIL_REGEX.test(values.email)) {
+    if (values.email && !EMAIL_REGEX.test(values.email)) {
       errors.email = ERROR_MESSAGES.INVALID_EMAIL;
     }
     if (!values.password) {
       errors.password = ERROR_MESSAGES.PASSWORD_REQUIRED;
     }
-    if (values.password.length < 6 || values.password.length > 16) {
+    if (values.password && (values.password.length < 6 || values.password.length > 16)) {
       errors.password = ERROR_MESSAGES.PASSWORD_NUMBER_LIMIT;
     }
     if (!values.bio) {
@@ -49,7 +55,9 @@ export const SignUp = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+    setFormValues((prev) => ({...prev, [name]: value}))
+    setFormErrors({});
+    setMessage("");
   };
   //ユーザー登録
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -83,7 +91,9 @@ export const SignUp = () => {
       if (typeof error === "object" && error !== null && "code" in error) {
         const err = error as { code: string };
         if (err.code === "auth/email-already-in-use") {
-          setMessage(AUTHENTICATION_ERROR.EMAIL_MESSAGE_ALREADY_IN_USE);
+          setMessage(
+            AUTHENTICATION_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL,
+          );
         }
         if (err.code === "auth/network-request-failed") {
           setMessage(AUTHENTICATION_ERROR.EMAIL_MESSAGE_NETWORK_ERROR);
@@ -97,7 +107,7 @@ export const SignUp = () => {
   };
 
   const togglePassword = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -130,7 +140,7 @@ export const SignUp = () => {
         <label htmlFor="password">パスワード</label>
 
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="パスワード"
           value={formValues.password}
           name="password"

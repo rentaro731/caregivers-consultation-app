@@ -1,11 +1,3 @@
-import type { SignUpFormValues } from "./types";
-export const SIGNUP_INITIAL_VALUES: SignUpFormValues = {
-  name: "",
-  email: "",
-  password: "",
-  bio: "",
-};
-
 export const ERROR_MESSAGES = {
   NAME_REQUIRED: "ニックネームを入力してください",
   EMAIL_REQUIRED: "メールアドレスを入力してください",
@@ -19,7 +11,7 @@ export const EMAIL_REGEX =
 
 export const AUTHENTICATION_ERROR = {
   EMAIL_MESSAGE_SERVER_ERROR: "登録に失敗しました。再度お試しください。",
-  EMAIL_MESSAGE_ALREADY_IN_USE:
+  EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL:
     "メールアドレスまたはパスワードが間違っています。",
   EMAIL_MESSAGE_NETWORK_ERROR:
     "通信エラーが発生しました。インターネット接続を確認してください。",
