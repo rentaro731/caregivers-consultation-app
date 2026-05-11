@@ -52,6 +52,7 @@ export const Login = () => {
     const validationErrors = validationCheck(inputValues);
     if (Object.keys(validationErrors).length > 0) {
       setInputErrors(validationErrors);
+      console.log(validationErrors);
       setMessage("");
       return;
     }
@@ -90,8 +91,8 @@ export const Login = () => {
           );
           return;
         }
-        setMessage("ログインに失敗しました。再度お試しください。");
       }
+      setMessage("ログインに失敗しました。再度お試しください。");
     } finally {
       setSending(false);
     }
