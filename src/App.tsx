@@ -8,6 +8,8 @@ import { CreatePost } from "./CreatePost";
 import { SignUp } from "./SignUp";
 import { Login } from "./Login";
 import { Comments } from "./Comments";
+import { GoogleLogin } from "./GoogleLogin";
+import { SelfIntroduction } from "./SelfIntroduction";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/postList/profile" element={<Profile />} />
         <Route path="/postList/createPost" element={<CreatePost />} />
         <Route path="/postList/comments" element={<Comments />} />
+        <Route path="/googleLogin" element={<GoogleLogin />} />
+        <Route path="/selfIntroduction" element={<SelfIntroduction />} />
       </Routes>
     </>
   );
