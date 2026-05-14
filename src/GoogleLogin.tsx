@@ -10,11 +10,11 @@ import { useNavigate } from "react-router-dom";
 
 export const GoogleLogin = () => {
     const [message,setMessage] = useState("");
-    const [loding,setLoding] =useState(false)
+    const [loading,setLoading] =useState(false)
 
     const navigate = useNavigate();
     const handleGoogleLogin = async () => {
-        setLoding(true)
+        setLoading(true)
         setMessage("")
         const provider = new GoogleAuthProvider();
         provider.setCustomParameters({
@@ -39,27 +39,28 @@ export const GoogleLogin = () => {
         navigate("/postList");
 
         } catch(error: unknown) {
+
             if(typeof error === "object" && error !== null && "code" in error){
                 const err = error as {code: string}
             if (err.code === "auth/popup-closed-by-user"){
                 setMessage(AUTHENTICATION_ERROR.GOOGLE_LOGIN_CANCELLED)
                 return;
             }
-            if(err.code === "auth/network-request-failed") {
+            if(err.code === "auth/internal-error") {
                 setMessage(AUTHENTICATION_ERROR.NETWORK_ERROR)
                 return;
             }
         }
         setMessage(AUTHENTICATION_ERROR.SERVER_ERROR)
       }finally {
-        setLoding(false)
+        setLoading(false)
     }
 
     } 
     return (
         <>
-        <button onClick={handleGoogleLogin} disabled={loding}>
-        {loding ? "ログイン中..." : "Googleアカウントでログイン"}
+        <button onClick={handleGoogleLogin} disabled={loading}>
+        {loading ? "ログイン中..." : "Googleアカウントでログイン"}
         </button>
         {message && <p>{message}</p>}
         
