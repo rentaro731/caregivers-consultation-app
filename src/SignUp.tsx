@@ -96,11 +96,11 @@ export const SignUp = () => {
           );
         }
         if (err.code === "auth/network-request-failed") {
-          setMessage(AUTHENTICATION_ERROR.EMAIL_MESSAGE_NETWORK_ERROR);
+          setMessage(AUTHENTICATION_ERROR.NETWORK_ERROR);
         }
         return;
       }
-      setMessage(AUTHENTICATION_ERROR.EMAIL_MESSAGE_SERVER_ERROR);
+      setMessage(AUTHENTICATION_ERROR.SERVER_ERROR);
     } finally {
       setSending(false);
     }
@@ -169,6 +169,8 @@ export const SignUp = () => {
         </button>
       </form>
       {message && <p>{message}</p>}
+      <br />
+      <button onClick={() => navigate("/googleLogin")}>Googleアカウントでログイン</button>
     </>
   );
 };

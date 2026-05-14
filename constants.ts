@@ -10,9 +10,10 @@ export const EMAIL_REGEX =
   /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
 
 export const AUTHENTICATION_ERROR = {
-  EMAIL_MESSAGE_SERVER_ERROR: "登録に失敗しました。再度お試しください。",
+  SERVER_ERROR: "登録に失敗しました。再度お試しください。",
   EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL:
     "メールアドレスまたはパスワードが間違っています。",
-  EMAIL_MESSAGE_NETWORK_ERROR:
+  NETWORK_ERROR:
     "通信エラーが発生しました。インターネット接続を確認してください。",
+  GOOGLE_LOGIN_CANCELLED: "Googleログインがキャンセルされました。",
 };
