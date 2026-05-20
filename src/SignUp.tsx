@@ -1,26 +1,22 @@
 import { useState } from "react";
 import { auth, db } from "./firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc,serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-import type { SignUpFormValues, FormErrorType } from "../types";
+import type { FormValues, FormErrorType } from "../types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
   AUTHENTICATION_ERROR,
+  INITIAL_VALUES,
 } from "../constants";
 
-const SIGNUP_INITIAL_VALUES: SignUpFormValues = {
-  name: "",
-  email: "",
-  password: "",
-  bio: "",
-};
+
 
 export const SignUp = () => {
-  const [formValues, setFormValues] = useState<SignUpFormValues>(
-    SIGNUP_INITIAL_VALUES,
+  const [formValues, setFormValues] = useState<FormValues>(
+    INITIAL_VALUES,
   );
   const [sending, setSending] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrorType>({});
@@ -30,11 +26,9 @@ export const SignUp = () => {
   const navigate = useNavigate();
 
   //バリデーションチェック
-  const validates = (values: SignUpFormValues) => {
+  const validates = (values: FormValues) => {
     const errors: FormErrorType = {};
-    if (!values.name) {
-      errors.name = ERROR_MESSAGES.NAME_REQUIRED;
-    }
+    
     if (!values.email) {
       errors.email = ERROR_MESSAGES.EMAIL_REQUIRED;
     }
@@ -47,9 +41,7 @@ export const SignUp = () => {
     if (values.password && (values.password.length < 6 || values.password.length > 16)) {
       errors.password = ERROR_MESSAGES.PASSWORD_NUMBER_LIMIT;
     }
-    if (!values.bio) {
-      errors.bio = ERROR_MESSAGES.BIO_REQUIRED;
-    }
+    
     return errors;
   };
 
@@ -80,11 +72,11 @@ export const SignUp = () => {
       const uid = userCredential.user.uid;
 
       await setDoc(doc(db, "users", uid), {
-        name: formValues.name,
-        email: formValues.email,
-        bio: formValues.bio,
+        name: "",
+        bio: "",
+        createdAt:serverTimestamp()
       });
-      setFormValues(SIGNUP_INITIAL_VALUES);
+      setFormValues(INITIAL_VALUES);
       setMessage("ユーザー登録が完了しました。");
       navigate("/login");
     } catch (error: unknown) {
@@ -114,18 +106,6 @@ export const SignUp = () => {
     <>
       <form onSubmit={handleSubmit} noValidate>
         <h1>新規登録</h1>
-        <label htmlFor="name">お名前</label>
-        <input
-          type="text"
-          placeholder="ニックネーム"
-          value={formValues.name}
-          name="name"
-          id="name"
-          onChange={handleChange}
-        />
-        {formErrors.name && <p>{formErrors.name}</p>}
-        <br />
-
         <label htmlFor="email">メールアドレス</label>
         <input
           type="email"
@@ -151,18 +131,6 @@ export const SignUp = () => {
           {showPassword ? "非表示" : "表示"}
         </button>
         {formErrors.password && <p>{formErrors.password}</p>}
-        <br />
-
-        <label htmlFor="bio">簡単な自己紹介</label>
-        <input
-          type="text"
-          placeholder="母を介護していますなど"
-          value={formValues.bio}
-          name="bio"
-          id="bio"
-          onChange={handleChange}
-        />
-        {formErrors.bio && <p>{formErrors.bio}</p>}
         <br />
         <button type="submit" disabled={sending}>
           登録
