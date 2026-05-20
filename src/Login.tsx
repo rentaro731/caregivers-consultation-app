@@ -3,22 +3,20 @@ import { auth } from "./firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import type { LoginFormValues, LoginFormErrorType } from "../types";
+import type { FormValues, FormErrorType } from "../types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
   AUTHENTICATION_ERROR,
+  INITIAL_VALUES,
 } from "../constants";
 
-const LOGIN_INITIAL_VALUES: LoginFormValues = {
-  email: "",
-  password: "",
-};
+
 
 export const Login = () => {
   const [inputValues, setInputValues] =
-    useState<LoginFormValues>(LOGIN_INITIAL_VALUES);
-  const [inputErrors, setInputErrors] = useState<LoginFormErrorType>({});
+    useState<FormValues>(INITIAL_VALUES);
+  const [inputErrors, setInputErrors] = useState<FormErrorType>({});
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -32,8 +30,8 @@ export const Login = () => {
     setMessage("");
   };
 
-  const validationCheck = (values: LoginFormValues) => {
-    const errors: LoginFormErrorType = {};
+  const validationCheck = (values: FormValues) => {
+    const errors: FormErrorType = {};
     if (!values.email) {
       errors.email = ERROR_MESSAGES.EMAIL_REQUIRED; 
     }
@@ -64,7 +62,7 @@ export const Login = () => {
         inputValues.email,
         inputValues.password,
       );
-      setInputValues(LOGIN_INITIAL_VALUES);
+      setInputValues(INITIAL_VALUES);
       setInputErrors({});
       setMessage("ログインに成功しました");
       navigate("/postList");

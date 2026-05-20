@@ -1,3 +1,21 @@
+import type { FormValues } from "./types";
+
+
+export const INITIAL_VALUES: FormValues = {
+  email: "",
+  password: "",
+};
+
+
+
+
+
+
+
+
+
+
+//エラーメッセージ
 export const ERROR_MESSAGES = {
   NAME_REQUIRED: "ニックネームを入力してください",
   EMAIL_REQUIRED: "メールアドレスを入力してください",
