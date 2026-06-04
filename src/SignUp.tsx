@@ -1,23 +1,19 @@
 import { useState } from "react";
 import { auth, db } from "./firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc,serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import type { FormValues, FormErrorType } from "../types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
-  AUTHENTICATION_ERROR,
+  FIREBASE_ERROR,
   INITIAL_VALUES,
 } from "../constants";
 
-
-
 export const SignUp = () => {
-  const [formValues, setFormValues] = useState<FormValues>(
-    INITIAL_VALUES,
-  );
+  const [formValues, setFormValues] = useState<FormValues>(INITIAL_VALUES);
   const [sending, setSending] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrorType>({});
   const [message, setMessage] = useState("");
@@ -28,7 +24,7 @@ export const SignUp = () => {
   //バリデーションチェック
   const validates = (values: FormValues) => {
     const errors: FormErrorType = {};
-    
+
     if (!values.email) {
       errors.email = ERROR_MESSAGES.EMAIL_REQUIRED;
     }
@@ -38,21 +34,24 @@ export const SignUp = () => {
     if (!values.password) {
       errors.password = ERROR_MESSAGES.PASSWORD_REQUIRED;
     }
-    if (values.password && (values.password.length < 6 || values.password.length > 16)) {
+    if (
+      values.password &&
+      (values.password.length < 6 || values.password.length > 16)
+    ) {
       errors.password = ERROR_MESSAGES.PASSWORD_NUMBER_LIMIT;
     }
-    
+
     return errors;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormValues((prev) => ({...prev, [name]: value}))
+    setFormValues((prev) => ({ ...prev, [name]: value }));
     setFormErrors({});
     setMessage("");
   };
   //ユーザー登録
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = validates(formValues);
     if (Object.keys(validationErrors).length > 0) {
@@ -74,7 +73,7 @@ export const SignUp = () => {
       await setDoc(doc(db, "users", uid), {
         name: "",
         bio: "",
-        createdAt:serverTimestamp()
+        createdAt: serverTimestamp(),
       });
       setFormValues(INITIAL_VALUES);
       setMessage("ユーザー登録が完了しました。");
@@ -83,16 +82,14 @@ export const SignUp = () => {
       if (typeof error === "object" && error !== null && "code" in error) {
         const err = error as { code: string };
         if (err.code === "auth/email-already-in-use") {
-          setMessage(
-            AUTHENTICATION_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL,
-          );
+          setMessage(FIREBASE_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL);
         }
         if (err.code === "auth/network-request-failed") {
-          setMessage(AUTHENTICATION_ERROR.NETWORK_ERROR);
+          setMessage(FIREBASE_ERROR.NETWORK_ERROR);
         }
         return;
       }
-      setMessage(AUTHENTICATION_ERROR.SERVER_ERROR);
+      setMessage(FIREBASE_ERROR.SERVER_ERROR);
     } finally {
       setSending(false);
     }
@@ -138,7 +135,9 @@ export const SignUp = () => {
       </form>
       {message && <p>{message}</p>}
       <br />
-      <button onClick={() => navigate("/googleLogin")}>Googleアカウントでログイン</button>
+      <button onClick={() => navigate("/googleLogin")}>
+        Googleアカウントでログイン
+      </button>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth } from "./firebaseConfig";
+import { auth, db } from "./firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -7,15 +7,13 @@ import type { FormValues, FormErrorType } from "../types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
-  AUTHENTICATION_ERROR,
+  FIREBASE_ERROR,
   INITIAL_VALUES,
 } from "../constants";
-
-
+import { doc, getDoc } from "firebase/firestore";
 
 export const Login = () => {
-  const [inputValues, setInputValues] =
-    useState<FormValues>(INITIAL_VALUES);
+  const [inputValues, setInputValues] = useState<FormValues>(INITIAL_VALUES);
   const [inputErrors, setInputErrors] = useState<FormErrorType>({});
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
@@ -25,7 +23,7 @@ export const Login = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setInputValues((prev) => ({...prev, [name]: value}))
+    setInputValues((prev) => ({ ...prev, [name]: value }));
     setInputErrors({});
     setMessage("");
   };
@@ -33,7 +31,7 @@ export const Login = () => {
   const validationCheck = (values: FormValues) => {
     const errors: FormErrorType = {};
     if (!values.email) {
-      errors.email = ERROR_MESSAGES.EMAIL_REQUIRED; 
+      errors.email = ERROR_MESSAGES.EMAIL_REQUIRED;
     }
     if (!values.password) {
       errors.password = ERROR_MESSAGES.PASSWORD_REQUIRED;
@@ -41,7 +39,10 @@ export const Login = () => {
     if (values.email && !EMAIL_REGEX.test(values.email)) {
       errors.email = ERROR_MESSAGES.INVALID_EMAIL;
     }
-    if (values.password && (values.password.length < 6 || values.password.length > 16)) {
+    if (
+      values.password &&
+      (values.password.length < 6 || values.password.length > 16)
+    ) {
       errors.password = ERROR_MESSAGES.PASSWORD_NUMBER_LIMIT;
     }
     return errors;
@@ -57,11 +58,20 @@ export const Login = () => {
     }
     setSending(true);
     try {
-      await signInWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         inputValues.email,
         inputValues.password,
       );
+      const user = userCredential.user;
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      const userData = userSnap.data();
+
+      if (userData?.name === "" || userData?.bio === "") {
+        navigate("/selfIntroduction");
+        return;
+      }
       setInputValues(INITIAL_VALUES);
       setInputErrors({});
       setMessage("ログインに成功しました");
@@ -70,29 +80,23 @@ export const Login = () => {
       if (typeof error === "object" && error !== null && "code" in error) {
         const err = error as { code: string };
         if (err.code === "auth/user-not-found") {
-          setMessage(
-            AUTHENTICATION_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL,
-          );
+          setMessage(FIREBASE_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL);
           return;
         }
         if (err.code === "auth/wrong-password") {
-          setMessage(
-            AUTHENTICATION_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL,
-          );
+          setMessage(FIREBASE_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL);
           return;
         }
         if (err.code === "auth/network-request-failed") {
-          setMessage(AUTHENTICATION_ERROR.NETWORK_ERROR);
+          setMessage(FIREBASE_ERROR.NETWORK_ERROR);
           return;
         }
         if (err.code === "auth/invalid-credential") {
-          setMessage(
-            AUTHENTICATION_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL,
-          );
+          setMessage(FIREBASE_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL);
           return;
         }
       }
-      setMessage(AUTHENTICATION_ERROR.SERVER_ERROR);
+      setMessage(FIREBASE_ERROR.SERVER_ERROR);
     } finally {
       setSending(false);
     }
@@ -137,7 +141,9 @@ export const Login = () => {
       </form>
       {message && <p>{message}</p>}
       <br />
-      <button onClick={() => navigate("/googleLogin")}>Googleアカウントでログイン</button>
+      <button onClick={() => navigate("/googleLogin")}>
+        Googleアカウントでログイン
+      </button>
     </>
   );
 };
