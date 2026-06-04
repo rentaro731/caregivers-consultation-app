@@ -1,19 +1,9 @@
 import type { FormValues } from "./types";
 
-
 export const INITIAL_VALUES: FormValues = {
   email: "",
   password: "",
 };
-
-
-
-
-
-
-
-
-
 
 //エラーメッセージ
 export const ERROR_MESSAGES = {
@@ -27,7 +17,7 @@ export const ERROR_MESSAGES = {
 export const EMAIL_REGEX =
   /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
 
-export const AUTHENTICATION_ERROR = {
+export const FIREBASE_ERROR = {
   SERVER_ERROR: "登録に失敗しました。再度お試しください。",
   EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL:
     "メールアドレスまたはパスワードが間違っています。",
