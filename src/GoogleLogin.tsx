@@ -27,11 +27,11 @@ export const GoogleLogin = () => {
 
       if (!userSnap.exists()) {
         await setDoc(userRef, {
-          name: "",
-          bio: "",
+          name: null,
+          bio: null,
           createdAt: serverTimestamp(),
         });
-        navigate("/selfIntroduction");
+        navigate("/postList/profile/editProfile");
         return;
       }
       navigate("/postList");

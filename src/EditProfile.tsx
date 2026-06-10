@@ -5,34 +5,32 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
-type IntroductionValues = {
+type ProfileFormValues = {
   name: string;
   bio: string;
 };
 
-export type IntroductionErrorType = {
+export type ProfileFormErrorType = {
   name?: string;
   bio?: string;
 };
 
-const INTRODUCTION_VALUES: IntroductionValues = {
+const PROFILE_INITIAL_VALUES: ProfileFormValues = {
   name: "",
   bio: "",
 };
 
-export const SelfIntroduction = () => {
+export const EditProfile = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
-  const [introductionValues, setIntroductionValues] =
-    useState(INTRODUCTION_VALUES);
-  const [introductionErrors, setIntroductionErrors] =
-    useState<IntroductionErrorType>({});
+  const [profileValues, setProfileValues] = useState(PROFILE_INITIAL_VALUES);
+  const [profileErrors, setProfileErrors] = useState<ProfileFormErrorType>({});
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
 
-  const validates = (values: IntroductionValues) => {
-    const errors: IntroductionErrorType = {};
+  const validates = (values: ProfileFormValues) => {
+    const errors: ProfileFormErrorType = {};
 
     if (!values.name) {
       errors.name = ERROR_MESSAGES.NAME_REQUIRED;
@@ -47,21 +45,19 @@ export const SelfIntroduction = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setIntroductionValues((prevValues) => ({
+    setProfileValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
-    setIntroductionErrors({});
+    setProfileErrors({});
     setMessage("");
   };
 
-  const onIntroductionSubmit = async (
-    e: React.SubmitEvent<HTMLFormElement>,
-  ) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const validationErrors = validates(introductionValues);
+    const validationErrors = validates(profileValues);
     if (Object.keys(validationErrors).length > 0) {
-      setIntroductionErrors(validationErrors);
+      setProfileErrors(validationErrors);
       setMessage("");
       return;
     }
@@ -84,13 +80,13 @@ export const SelfIntroduction = () => {
       await setDoc(
         doc(db, "users", user?.id),
         {
-          name: introductionValues.name,
-          bio: introductionValues.bio,
+          name: profileValues.name,
+          bio: profileValues.bio,
         },
         { merge: true },
       );
-      setIntroductionValues(INTRODUCTION_VALUES);
-      setIntroductionErrors({});
+      setProfileValues(PROFILE_INITIAL_VALUES);
+      setProfileErrors({});
       setMessage("プロフィールを登録しました");
       navigate("/postList");
     } catch (error) {
@@ -103,28 +99,28 @@ export const SelfIntroduction = () => {
   return (
     <>
       <h1>ニックネーム ひとこと</h1>
-      <form onSubmit={onIntroductionSubmit}>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="name">ニックネーム</label>
         <input
-          type="name"
+          type="text"
           placeholder="ニックネームを入力"
-          value={introductionValues.name}
+          value={profileValues.name}
           name="name"
           id="name"
           onChange={handleChange}
         />
-        {introductionErrors.name && <p>{introductionErrors.name}</p>}
+        {profileErrors.name && <p>{profileErrors.name}</p>}
         <br />
         <label htmlFor="bio">ひとこと</label>
         <input
           type="text"
           placeholder="ひとこと"
-          value={introductionValues.bio}
+          value={profileValues.bio}
           name="bio"
           id="bio"
           onChange={handleChange}
         />
-        {introductionErrors.bio && <p>{introductionErrors.bio}</p>}
+        {profileErrors.bio && <p>{profileErrors.bio}</p>}
         <br />
         <button type="submit" disabled={sending}>
           登録
