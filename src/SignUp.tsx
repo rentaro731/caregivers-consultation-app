@@ -71,8 +71,8 @@ export const SignUp = () => {
       const uid = userCredential.user.uid;
 
       await setDoc(doc(db, "users", uid), {
-        name: "",
-        bio: "",
+        name: null,
+        bio: null,
         createdAt: serverTimestamp(),
       });
       setFormValues(INITIAL_VALUES);

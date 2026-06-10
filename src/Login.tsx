@@ -68,8 +68,8 @@ export const Login = () => {
       const userSnap = await getDoc(userRef);
       const userData = userSnap.data();
 
-      if (userData?.name === "" || userData?.bio === "") {
-        navigate("/selfIntroduction");
+      if (userData?.name === null || userData?.bio === null) {
+        navigate("/postList/profile/editProfile");
         return;
       }
       setInputValues(INITIAL_VALUES);
