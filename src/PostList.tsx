@@ -1,7 +1,3 @@
 export const PostList = () => {
-  return (
-    <>
-      <h1>Welcome to the Post List</h1>
-    </>
-  );
+  return <div>投稿一覧</div>;
 };
