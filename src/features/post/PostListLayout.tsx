@@ -1,5 +1,5 @@
 import { useLocation, NavLink, Outlet } from "react-router-dom";
-import styles from "./css/postListLayout.module.css";
+import styles from "../../css/postListLayout.module.css";
 import { LuHeartHandshake } from "react-icons/lu";
 
 type NavLinkType = {

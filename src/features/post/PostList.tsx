@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../css/postList.module.css";
+import styles from "../../css/postList.module.css";
 
 import { collection,  onSnapshot, orderBy, query, Timestamp } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
