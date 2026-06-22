@@ -1,16 +1,16 @@
-import "./App.css";
+import "../css/App.css";
 
 import { Routes, Route } from "react-router-dom";
-import { LandingPage } from "./LandingPage";
-import { PostList } from "./PostList";
-import { Profile } from "./sideBar/Profile";
-import { CreatePost } from "./sideBar/CreatePost";
-import { SignUp } from "./SignUp";
-import { Login } from "./Login";
-import { Comments } from "./sideBar/Comments";
-import { GoogleLogin } from "./GoogleLogin";
-import { EditProfile } from "./EditProfile";
-import { PostListLayout } from "./PostListLayout";
+import { LandingPage } from "../features/landing/LandingPage";
+import { PostList } from "../features/post/PostList";
+import { Profile } from "../features/profile/Profile";
+import { CreatePost } from "../features/post/CreatePost";
+import { SignUp } from "../features/auth/SignUp";
+import { Login } from "../features/auth/Login";
+import { Comments } from "../features/post/Comments";
+import { GoogleLogin } from "../features/auth/GoogleLogin";
+import { EditProfile } from "../features/profile/EditProfile";
+import { PostListLayout } from "../features/post/PostListLayout";
 
 function App() {
   return (

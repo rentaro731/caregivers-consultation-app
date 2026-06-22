@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { auth, db } from "./firebaseConfig";
+import { auth, db } from "../../shared/firebase/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-import type { FormValues, FormErrorType } from "../types";
+import type { FormValues, FormErrorType } from "../../../types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
   FIREBASE_ERROR,
   INITIAL_VALUES,
-} from "../constants";
+} from "../../../constants";
 
 export const SignUp = () => {
   const [formValues, setFormValues] = useState<FormValues>(INITIAL_VALUES);

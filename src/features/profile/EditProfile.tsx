@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { ERROR_MESSAGES, FIREBASE_ERROR } from "../constants";
-import { useUserContext } from "./UserContext";
+import { ERROR_MESSAGES, FIREBASE_ERROR } from "../../../constants";
+import { useUserContext } from "../../shared/context/UserContext";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import { db } from "../../shared/firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 type ProfileFormValues = {

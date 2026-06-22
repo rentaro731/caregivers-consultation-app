@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { auth, db } from "./firebaseConfig";
+import { auth, db } from "../../shared/firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import type { FormValues, FormErrorType } from "../types";
+import type { FormValues, FormErrorType } from "../../../types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
   FIREBASE_ERROR,
   INITIAL_VALUES,
-} from "../constants";
+} from "../../../constants";
 import { doc, getDoc } from "firebase/firestore";
 
 export const Login = () => {

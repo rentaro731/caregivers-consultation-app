@@ -1,6 +1,6 @@
 import { useLocation, NavLink, Outlet } from "react-router-dom";
-import styles from "./css/postListLayout.module.css";
-import { HeartHandshake } from "lucide-react";
+import styles from "../../css/postListLayout.module.css";
+import { LuHeartHandshake } from "react-icons/lu";
 
 type NavLinkType = {
   to: string;
@@ -36,7 +36,7 @@ export const PostListLayout = () => {
     <div className={styles.postListContainer}>
       <aside className={styles.sidebar}>
         <div className={styles.logo}>
-          <HeartHandshake size={40} />
+        <LuHeartHandshake  size={40}/>
           <p className={styles.categoryTitle}>介護相談</p>
         </div>
 
