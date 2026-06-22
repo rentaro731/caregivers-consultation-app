@@ -1,7 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, db } from "./firebaseConfig";
+import { auth, db } from "../../shared/firebase/firebaseConfig";
 import { setDoc, doc, serverTimestamp, getDoc } from "firebase/firestore";
-import { FIREBASE_ERROR } from "../constants";
+import { FIREBASE_ERROR } from "../../../constants";
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
