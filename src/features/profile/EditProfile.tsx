@@ -1,33 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ERROR_MESSAGES, FIREBASE_ERROR } from "../../../constants";
 import { useUserContext } from "../../shared/context/UserContext";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 type ProfileFormValues = {
   name: string;
   bio: string;
+  icon: string,
 };
 
 export type ProfileFormErrorType = {
   name?: string;
   bio?: string;
+  icon?: string
 };
 
 const PROFILE_INITIAL_VALUES: ProfileFormValues = {
   name: "",
   bio: "",
+  icon:"",
 };
 
+
 export const EditProfile = () => {
-  const { user } = useUserContext();
+  const { user, loading} = useUserContext();
   const navigate = useNavigate();
+
+  const icons = ["😈","🤡","👻","😸","👨","👩","🐶","🐰","🦊","🐒"]
 
   const [profileValues, setProfileValues] = useState(PROFILE_INITIAL_VALUES);
   const [profileErrors, setProfileErrors] = useState<ProfileFormErrorType>({});
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
+
+
+  useEffect(()=>{
+    const getProfile= async ()=>{
+      if (loading) return;
+      if(!user?.id) return
+
+    const userRef = doc(db,"users",user?.id)
+    const userSnap = await getDoc(userRef)
+    if(userSnap.exists()){
+      const data = userSnap.data();
+      setProfileValues({
+        name: data?.name ?? "",
+        bio: data?.bio ?? "",
+        icon: data?.icon ?? "",
+      });
+    }
+  };
+  getProfile();
+    },[user?.id,loading])
+
+    
 
   const validates = (values: ProfileFormValues) => {
     const errors: ProfileFormErrorType = {};
@@ -38,6 +66,9 @@ export const EditProfile = () => {
 
     if (!values.bio) {
       errors.bio = ERROR_MESSAGES.BIO_REQUIRED;
+    }
+    if(!values.icon){
+      errors.icon= ERROR_MESSAGES.ICON_REQUIRED
     }
 
     return errors;
@@ -52,6 +83,14 @@ export const EditProfile = () => {
     setProfileErrors({});
     setMessage("");
   };
+
+  const handleSelectIcon = (selectIcon:string)=>{
+    setProfileValues((prev) => ({
+      ...prev,
+      icon:selectIcon})
+    )
+  }
+
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,6 +121,7 @@ export const EditProfile = () => {
         {
           name: profileValues.name,
           bio: profileValues.bio,
+          icon:profileValues.icon
         },
         { merge: true },
       );
@@ -98,8 +138,15 @@ export const EditProfile = () => {
 
   return (
     <>
-      <h1>ニックネーム ひとこと</h1>
+      <h1>プロフィール</h1>
       <form onSubmit={handleSubmit}>
+      <label htmlFor="icon">アイコン</label>
+      {icons.map((icon)=>(
+        <button key={icon} type="button" onClick={()=>handleSelectIcon(icon)}>{icon}</button>
+      ))}
+      <p>選択中：{profileValues.icon}</p>
+      {profileErrors.icon && <p>{profileErrors.icon}</p>}
+        
         <label htmlFor="name">ニックネーム</label>
         <input
           type="text"

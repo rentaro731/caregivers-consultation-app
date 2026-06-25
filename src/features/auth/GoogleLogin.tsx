@@ -29,6 +29,7 @@ export const GoogleLogin = () => {
         await setDoc(userRef, {
           name: null,
           bio: null,
+          icon: null,
           createdAt: serverTimestamp(),
         });
         navigate("/postList/profile/editProfile");

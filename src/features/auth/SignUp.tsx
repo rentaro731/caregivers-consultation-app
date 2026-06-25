@@ -73,6 +73,7 @@ export const SignUp = () => {
       await setDoc(doc(db, "users", uid), {
         name: null,
         bio: null,
+        icon:null,
         createdAt: serverTimestamp(),
       });
       setFormValues(INITIAL_VALUES);
