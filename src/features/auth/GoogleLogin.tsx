@@ -32,7 +32,7 @@ export const GoogleLogin = () => {
           icon: null,
           createdAt: serverTimestamp(),
         });
-        navigate("/postList/profile/editProfile");
+        navigate("/profile/editProfile");
         return;
       }
       navigate("/postList");

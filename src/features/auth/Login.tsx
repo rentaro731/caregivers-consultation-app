@@ -69,7 +69,7 @@ export const Login = () => {
       const userData = userSnap.data();
 
       if (userData?.name == null || userData?.bio == null || userData?.icon == null) {
-        navigate("/postList/profile/editProfile");
+        navigate("/profile/editProfile");
         return;
       }
       setInputValues(INITIAL_VALUES);
