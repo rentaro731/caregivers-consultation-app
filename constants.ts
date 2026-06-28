@@ -13,6 +13,7 @@ export const ERROR_MESSAGES = {
   BIO_REQUIRED: "自己紹介文を入力してください",
   INVALID_EMAIL: "メールアドレスの形式が正しくありません",
   PASSWORD_NUMBER_LIMIT: "パスワードは6文字以上16文字以下で入力してください",
+  ICON_REQUIRED: "アイコンを選択してください"
 };
 export const EMAIL_REGEX =
   /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;

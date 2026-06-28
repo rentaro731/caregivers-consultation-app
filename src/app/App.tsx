@@ -26,11 +26,8 @@ function App() {
           <Route path="/postList/createPost" element={<CreatePost />} />
           <Route path="/postList/comments" element={<Comments />} />
           <Route path="/postList/profile" element={<Profile />} />
-          <Route
-            path="/postList/profile/editProfile"
-            element={<EditProfile />}
-          />
         </Route>
+            <Route path="/profile/editProfile" element={<EditProfile />} />
       </Routes>
     </>
   );
