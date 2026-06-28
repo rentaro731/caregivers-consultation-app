@@ -12,6 +12,7 @@ type Post = {
   commentCount:number,
   createdAt:Timestamp,
   empathyCount:number,
+  icon:string
   name:string,
   text:string
 }
@@ -45,6 +46,7 @@ export const PostList = () => {
     {posts.map((post)=>(
       <li key={post.postId}className={styles.postItem}>
         <div className={styles.postHeader}>
+          <p className={styles.icon}>{post.icon}</p>
           <p>{post.name}</p>
         </div>
         <div className={styles.postText}>
