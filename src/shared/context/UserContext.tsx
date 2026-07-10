@@ -14,6 +14,7 @@ type User = {
   name?: string;
   email?: string;
   bio?: string;
+  icon?: string
 };
 type UserContextType = {
   user: User | null;

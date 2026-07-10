@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+.createPostTitle {
+    font-size: 34px;
+    font-weight: bold;
+    color: darkcyan;
+}
+.textarea {
+    width: 800px;
+    height: 500px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #333;
+    resize: none;
+}
+.postButtonContainer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.postButton {
+    width: 100px;
+    height: 50px;
+    background-color:  darkcyan;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
