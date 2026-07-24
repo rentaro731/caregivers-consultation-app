@@ -149,7 +149,6 @@ export const EditProfile = () => {
   const updateUserPostsProfile = async (userId:string, name:string, icon:string)=>{
     const postsQuery = query(collection(db,"posts"),where("authId","==",userId));
     const postsSnapshot = await getDocs(postsQuery)
-    console.log(postsSnapshot.docs)
     const batch = writeBatch(db)
     postsSnapshot.docs.forEach((postDoc)=>{
       batch.update(postDoc.ref,{
