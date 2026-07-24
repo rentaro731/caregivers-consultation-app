@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { ERROR_MESSAGES, FIREBASE_ERROR } from "../../../constants";
 import { useUserContext } from "../../shared/context/UserContext";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, where, writeBatch } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 type ProfileFormValues = {
   name: string;
@@ -25,8 +26,9 @@ const PROFILE_INITIAL_VALUES: ProfileFormValues = {
 
 
 export const EditProfile = () => {
-  const { user, loading} = useUserContext();
+  const { user, loading,refreshProfile} = useUserContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const icons = ["😈","🤡","👻","😸","👨","👩","🐶","🐰","🦊","🐒"]
 
@@ -125,16 +127,37 @@ export const EditProfile = () => {
         },
         { merge: true },
       );
+      await  updateUserPostsProfile(user.id,profileValues.name,profileValues.icon)
+
+      await refreshProfile();
       setProfileValues(PROFILE_INITIAL_VALUES);
       setProfileErrors({});
       setMessage("プロフィールを登録しました");
-      navigate("/postList");
+      if(location.state?.from === "profile"){
+        navigate("/postList/profile");
+      } else{
+        navigate("/postList");
+      }
+    
     } catch (error) {
       setMessage(FIREBASE_ERROR.SERVER_ERROR);
     } finally {
       setSending(false);
     }
   };
+
+  const updateUserPostsProfile = async (userId:string, name:string, icon:string)=>{
+    const postsQuery = query(collection(db,"posts"),where("authId","==",userId));
+    const postsSnapshot = await getDocs(postsQuery)
+    const batch = writeBatch(db)
+    postsSnapshot.docs.forEach((postDoc)=>{
+      batch.update(postDoc.ref,{
+        name,
+        icon,
+      });
+    });
+    await batch.commit();
+  }
 
   return (
     <>

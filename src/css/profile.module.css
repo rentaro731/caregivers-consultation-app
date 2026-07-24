@@ -1,0 +1,116 @@
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    padding: 40px;
+}
+.title{
+    margin: 0 0 32px;
+    font-size: 42px;
+    font-weight: 700;
+}
+.card{
+    width: 100%;
+    max-width: 760px;
+    min-height: 420px;
+    background-color: #ffffff;
+    border: 1px solid #dedede;
+    border-radius: 18px;
+    padding: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+.userInfo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.icon{
+    width: 96px;
+    height: 96px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border: 2px solid #d9d9d9;
+    border-radius: 50%;
+    background-color: #fafafa;
+    font-size: 54px;
+}
+.userText{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+.userName{
+    font-size: 30px;
+    margin: 0;
+}
+.bio{
+    margin: 0;
+    color: #666666;
+    font-size: 17px;
+    line-height: 1.6;
+}
+.editBtn{
+    margin-left: auto;
+    padding: 10px 20px;
+    border:  1px solid #6ea987;
+    border-radius: 999px;
+    background-color: #ffffff;
+    color:  #4f8f6c;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.editBtn:hover {
+    background-color: #edf7f1;
+  }
+  .line{
+    margin: 34px 0;
+    border: none;
+    border-top: 1px solid #e2e2e2;
+  }
+  .authInfo{
+    display: flex;
+    flex-direction: column;
+  }
+  .authRow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 88px;
+    padding: 0 8px;
+  }
+  .authRow + .authRow{
+    border-top: 1px solid #eeeeee;
+  }
+  .authContent{
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    gap: 28px;
+  }
+  .authTitle{
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .authValue{
+    margin: 0;
+    color: #444444;
+    font-size: 17px;
+  }
+  .ChangeBtn{
+    padding: 8px 18px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .ChangeBtn:hover{
+    background-color:#f3f3f3;
+  }
