@@ -1,6 +1,8 @@
-import { useLocation, NavLink, Outlet } from "react-router-dom";
+import { useLocation, NavLink, Outlet, useNavigate } from "react-router-dom";
 import styles from "../../css/postListLayout.module.css";
 import { LuHeartHandshake } from "react-icons/lu";
+import { signOut } from "firebase/auth";
+import { auth } from "../../shared/firebase/firebaseConfig";
 
 type NavLinkType = {
   to: string;
@@ -11,6 +13,7 @@ type NavLinkType = {
 
 export const PostListLayout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const navLinks: NavLinkType[] = [
     {
       to: "/postList",
@@ -32,6 +35,18 @@ export const PostListLayout = () => {
     },
   ];
 
+  const logout =async ()=>{
+    if (!window.confirm("ログアウトしますか")){
+      return;
+    } 
+    try {
+      await signOut(auth)
+      navigate("/")
+    }catch(error){
+      console.error("ログアウトに失敗しました", error);
+    }
+  }
+
   return (
     <div className={styles.postListContainer}>
       <aside className={styles.sidebar}>
@@ -46,7 +61,7 @@ export const PostListLayout = () => {
             {link.title}
           </NavLink>
         ))}
-        <button className={styles.logout}>ログアウト</button>
+        <button className={styles.logout} onClick={logout}>ログアウト</button>
       </aside>
       <main className={styles.main}>
         <Outlet />
