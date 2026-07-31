@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import styles from "../../css/postList.module.css";
 
-import { collection,  onSnapshot, orderBy, query, Timestamp } from "firebase/firestore";
+import { collection,  onSnapshot, orderBy, query,  } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
 
 import { FaComment,FaHeart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import type { Post } from "../../../types";
 
-type Post = {
-  postId:string
-  authId:string,
-  commentCount:number,
-  createdAt:Timestamp,
-  empathyCount:number,
-  icon:string
-  name:string,
-  text:string
-}
+
 
 export const PostList = () => {
+
+  const navigate = useNavigate();
+
   const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(()=>{
@@ -32,8 +28,12 @@ export const PostList = () => {
     return unsubscribe
   },[])
 
+  const commentSection = (postId:string)=>{
+    navigate(`/postList/comments/${postId}`)
+  }
 
-  return <main className={styles.container}>
+  return (
+  <main className={styles.container}>
     <div className={styles.header}>
       <p className={styles.title}>
         投稿一覧
@@ -53,8 +53,8 @@ export const PostList = () => {
           <p>{post.text}</p>
         </div>
          <div className={styles.postFooter}>
-         <span><FaComment/>{post.commentCount}</span>
-         <span><FaHeart />{post.empathyCount}</span>
+         <button onClick={()=>commentSection(post.postId)} className={styles.commentIcon}><FaComment/>{post.commentCount}</button>
+         <button className={styles.empathyIcon}><FaHeart />{post.empathyCount}</button>
          </div>
         
       </li>
@@ -64,4 +64,4 @@ export const PostList = () => {
     </div>
 
   </main>
-};
+)};

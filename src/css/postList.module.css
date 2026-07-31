@@ -54,7 +54,6 @@
     margin-bottom: 16px;
     display: flex;
     flex-direction: column;
-    
 }
 .postListScrollArea {
     overflow-y: auto;
@@ -85,10 +84,19 @@
     font-size: 25px;
     background-color: #ffffff;
 }
+.postText p {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
 .postFooter{
     height: 15px;
     display: flex;
     justify-content: flex-end;
     gap: 8px;
     margin-top: auto;
+}
+.postFooter button {
+    border: none;
+    background: none;
+    cursor: pointer;
 }
