@@ -24,7 +24,7 @@ function App() {
         <Route path="/postList" element={<PostListLayout />}>
           <Route index element={<PostList />} />
           <Route path="/postList/createPost" element={<CreatePost />} />
-          <Route path="/postList/comments" element={<Comments />} />
+          <Route path="/postList/comments/:postId" element={<Comments />} />
           <Route path="/postList/profile" element={<Profile />} />
         </Route>
             <Route path="/profile/editProfile" element={<EditProfile />} />
