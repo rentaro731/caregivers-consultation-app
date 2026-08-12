@@ -11,6 +11,7 @@ import { Comments } from "../features/post/Comments";
 import { GoogleLogin } from "../features/auth/GoogleLogin";
 import { EditProfile } from "../features/profile/EditProfile";
 import { PostListLayout } from "../features/post/PostListLayout";
+import { RequireAuth } from "../features/auth/RequireAuth";
 
 function App() {
   return (
@@ -21,16 +22,23 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/googleLogin" element={<GoogleLogin />} />
 
-        <Route path="/postList" element={<PostListLayout />}>
+        <Route path="/postList" element={
+          <RequireAuth> 
+            <PostListLayout /> 
+          </RequireAuth>}>
           <Route index element={<PostList />} />
           <Route path="/postList/createPost" element={<CreatePost />} />
           <Route path="/postList/comments/:postId" element={<Comments />} />
           <Route path="/postList/profile" element={<Profile />} />
         </Route>
-            <Route path="/profile/editProfile" element={<EditProfile />} />
+            <Route path="/profile/editProfile" element={
+              <RequireAuth>
+              <EditProfile />
+              </RequireAuth>} />
       </Routes>
     </>
   );
 }
 
 export default App;
+
