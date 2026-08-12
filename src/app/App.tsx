@@ -12,10 +12,12 @@ import { GoogleLogin } from "../features/auth/GoogleLogin";
 import { EditProfile } from "../features/profile/EditProfile";
 import { PostListLayout } from "../features/post/PostListLayout";
 import { RequireAuth } from "../features/auth/RequireAuth";
+import { NetworkStatus } from "../shared/network/NetworkStatus";
 
 function App() {
   return (
     <>
+    <NetworkStatus/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signUp" element={<SignUp />} />
