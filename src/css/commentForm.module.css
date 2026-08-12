@@ -1,0 +1,12 @@
+.form{
+    width: 100%;
+    display: flex;
+    padding: 4px;
+    gap: 4px;
+}
+.commentInput{
+    flex: 1;
+}
+.errorComment{
+    color: red;
+}

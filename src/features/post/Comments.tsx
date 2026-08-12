@@ -8,6 +8,7 @@ import styles from "../../css/comments.module.css"
 import { FaComment, FaHeart } from "react-icons/fa";
 
 import { CommentsItem } from "./CommentsItem";
+import { CommentForm } from "./CommentForm";
 
 
 export const Comments = () => {
@@ -15,7 +16,7 @@ export const Comments = () => {
 
   const {postId} = useParams();
 
-  /* 投稿の詳細を取得 (commentの取得は別コンポーネント)*/
+  /* 投稿の詳細を取得 (commentの取得は CommentsItemコンポーネント)*/
   useEffect(()=>{
     const getPost = async()=>{
       if(!postId)return;
@@ -49,10 +50,11 @@ export const Comments = () => {
          </div>
         )}
       <h4 className={styles.secondTitle}>-コメント一覧-</h4>  
-
+      <div className={styles.commentsArea}>
       {postId && <CommentsItem postId={postId}/>}
+      </div>
+      {postId && <CommentForm postId={postId}/>}
 
     </div>
   );
 };
-

@@ -9,7 +9,7 @@ type CommentsItemType = {
     comment:string,
     icon:string,
     name:string,
-    createdAt:Timestamp,
+    createdAt:Timestamp | null,
 }
 export const CommentsItem =({postId}:{postId:string})=>{
     const [comment, setComment] = useState<CommentsItemType[]>([]);
@@ -37,7 +37,7 @@ export const CommentsItem =({postId}:{postId:string})=>{
                         <div className={styles.commentHeader}>
                             <p className={styles.icon}>{commentItem.icon}</p>
                             <p className={styles.name}>{commentItem.name}</p>
-                            <p className={styles.time}>{commentItem.createdAt.toDate().toLocaleString()}</p>
+                            <p className={styles.time}>{commentItem.createdAt?.toDate().toLocaleString()}</p>
                         </div>
                         <div className={styles.commentsTextArea}>
                             <p className={styles.commentText}>{commentItem.comment}</p>
