@@ -7,3 +7,6 @@
 .commentInput{
     flex: 1;
 }
+.errorComment{
+    color: red;
+}

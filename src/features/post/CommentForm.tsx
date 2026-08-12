@@ -15,6 +15,7 @@ export const CommentForm =({postId}:{postId:string})=>{
 
     const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         setComment(e.target.value)
+        setFormError("")
     }
 
     const validate = (value:string)=>{
@@ -50,7 +51,7 @@ export const CommentForm =({postId}:{postId:string})=>{
 
     return(
         <>
-        {formError && <p>{formError}</p>}
+        {formError && <p className={styles.errorComment}>{formError}</p>}
         <form onSubmit={sendComment}className={styles.form}>
             <input type="text" value={comment} onChange={handleChange} placeholder="コメントを入力" className={styles.commentInput}/>
             <button type="submit" className={styles.submitBtn}>送信</button>
