@@ -1,6 +1,7 @@
 import { useUserContext } from "../../shared/context/UserContext";
 import styles from "../../css/profile.module.css"
 import { useNavigate } from "react-router-dom";
+import { CareRecipientInfo } from "../careRecipient/CareRecipientInfo";
 
 export const Profile = () => {
   const {user,profile } = useUserContext()
@@ -41,8 +42,8 @@ export const Profile = () => {
         </div>
         <button className={styles.ChangeBtn}>変更</button>
         </div>
-       
       </div>
+      <CareRecipientInfo/>
       </div>
 
     </div>

@@ -4,13 +4,13 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-import type { FormValues, FormErrorType } from "../../../types";
+import type { FormValues, FormErrorType } from "../../shared/types/types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
   FIREBASE_ERROR,
   INITIAL_VALUES,
-} from "../../../constants";
+} from "../../shared/constants/constants";
 
 export const SignUp = () => {
   const [formValues, setFormValues] = useState<FormValues>(INITIAL_VALUES);

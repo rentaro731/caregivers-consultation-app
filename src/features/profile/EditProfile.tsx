@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ERROR_MESSAGES, FIREBASE_ERROR } from "../../../constants";
+import { ERROR_MESSAGES, FIREBASE_ERROR } from "../../shared/constants/constants";
 import { useUserContext } from "../../shared/context/UserContext";
 import { collection, doc, getDoc, getDocs, query, setDoc, where, writeBatch } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
@@ -18,11 +18,13 @@ export type ProfileFormErrorType = {
   icon?: string
 };
 
+
 const PROFILE_INITIAL_VALUES: ProfileFormValues = {
   name: "",
   bio: "",
   icon:"",
 };
+
 
 
 export const EditProfile = () => {
@@ -31,6 +33,7 @@ export const EditProfile = () => {
   const location = useLocation();
 
   const icons = ["😈","🤡","👻","😸","👨","👩","🐶","🐰","🦊","🐒"]
+  
 
   const [profileValues, setProfileValues] = useState(PROFILE_INITIAL_VALUES);
   const [profileErrors, setProfileErrors] = useState<ProfileFormErrorType>({});
@@ -51,6 +54,7 @@ export const EditProfile = () => {
         name: data?.name ?? "",
         bio: data?.bio ?? "",
         icon: data?.icon ?? "",
+
       });
     }
   };
@@ -106,15 +110,14 @@ export const EditProfile = () => {
     if (!user?.id) {
       setMessage("ログインして下さい");
       navigate("/login");
-      setSending(false);
       return;
     }
 
     if (!navigator.onLine) {
       setMessage(FIREBASE_ERROR.NETWORK_ERROR);
-      setSending(false);
       return;
     }
+    setSending(true);
 
     try {
       //ユーザープロフィールの更新

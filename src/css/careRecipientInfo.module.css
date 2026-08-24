@@ -1,0 +1,55 @@
+.careRecipientSection {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e5e5;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.header h4 {
+    font-size: 18px;
+    margin: 0;
+}
+.careRecipientList {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    align-items: flex-start;
+}
+.careRecipientCard {
+    flex: 0 0 210px;
+    height: 220px;
+    border: 1px solid #dce8df;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fafcf9;
+}
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cardHeader h5 {
+    margin: 0;
+    font-size: 16px;
+}
+.cardHeader p {
+    margin: 10px 0;
+}
+.addBtn,
+.editBtn {
+  background-color: white;
+  border: 1px solid #69a97d;
+  border-radius: 15px;
+  color: #4f9466;
+  cursor: pointer;
+}
+.conditionText{
+    max-height: 70px;
+    overflow-y: auto;
+    margin-bottom: 0;
+}

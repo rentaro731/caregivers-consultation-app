@@ -13,6 +13,7 @@ import { EditProfile } from "../features/profile/EditProfile";
 import { PostListLayout } from "../features/post/PostListLayout";
 import { RequireAuth } from "../features/auth/RequireAuth";
 import { NetworkStatus } from "../shared/network/NetworkStatus";
+import { EditCareRecipientInfo } from "../features/careRecipient/EditCareRecipientInfo";
 
 function App() {
   return (
@@ -37,6 +38,17 @@ function App() {
               <RequireAuth>
               <EditProfile />
               </RequireAuth>} />
+
+            <Route path="/profile/editCareRecipientInfo" element={
+              <RequireAuth>
+              <EditCareRecipientInfo />
+              </RequireAuth>} />
+
+            <Route path="/profile/editCareRecipientInfo/:id" element={
+              <RequireAuth>
+              <EditCareRecipientInfo />
+              </RequireAuth>} />
+
       </Routes>
     </>
   );

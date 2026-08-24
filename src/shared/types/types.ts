@@ -20,3 +20,12 @@ export type Post = {
   name:string,
   text:string
 }
+
+export type CareRecipientInfoType={
+  id:string,
+  authId:string,
+  age:string,
+  gender: number|null,
+  conditionCategory:number[],
+  status: string;
+}

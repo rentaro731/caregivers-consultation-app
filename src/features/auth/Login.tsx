@@ -3,13 +3,13 @@ import { auth, db } from "../../shared/firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import type { FormValues, FormErrorType } from "../../../types";
+import type { FormValues, FormErrorType } from "../../shared/types/types";
 import {
   ERROR_MESSAGES,
   EMAIL_REGEX,
   FIREBASE_ERROR,
   INITIAL_VALUES,
-} from "../../../constants";
+} from "../../shared/constants/constants";
 import { doc, getDoc } from "firebase/firestore";
 
 export const Login = () => {
