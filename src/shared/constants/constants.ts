@@ -1,4 +1,4 @@
-import type { FormValues } from "./types";
+import type { FormValues } from "../types/types";
 
 export const INITIAL_VALUES: FormValues = {
   email: "",
@@ -26,3 +26,6 @@ export const FIREBASE_ERROR = {
     "通信エラーが発生しました。インターネット接続を確認してください。",
   GOOGLE_LOGIN_CANCELLED: "Googleログインがキャンセルされました。",
 };
+
+export const genders = ["男性","女性","その他"] 
+export const conditionCategory = ["認知症","脳血管障害","運動機能の低下","視覚・聴覚の低下","排泄の問題","食事・嚥下の問題","寝たきり","その他"]

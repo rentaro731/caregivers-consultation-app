@@ -6,7 +6,7 @@ import { db } from "../../shared/firebase/firebaseConfig";
 
 import { FaComment,FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import type { Post } from "../../../types";
+import type { Post } from "../../shared/types/types";
 
 
 

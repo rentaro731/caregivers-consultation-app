@@ -3,7 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../../shared/firebase/firebaseConfig";
 
-import type { Post } from "../../../types";
+import type { Post } from "../../shared/types/types";
 import styles from "../../css/comments.module.css"
 import { FaComment, FaHeart } from "react-icons/fa";
 
