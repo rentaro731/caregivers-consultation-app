@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../../css/postList.module.css";
 
-import { collection,  onSnapshot, orderBy, query,  } from "firebase/firestore";
+import { collection,  doc,  getDoc,  onSnapshot, orderBy, query,  } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
 
 import { FaComment,FaHeart } from "react-icons/fa";
@@ -18,15 +18,32 @@ export const PostList = () => {
 
   useEffect(()=>{
     const postsQuery =  query(collection(db,"posts"),orderBy("createdAt","desc"))
-    const unsubscribe = onSnapshot(postsQuery,(snaps)=>{
-      const postData = snaps.docs.map((doc)=>({
-        postId:doc.id,
-        ...doc.data()
-      }))as Post[];
-      setPosts(postData)
+
+    const unsubscribe = onSnapshot(postsQuery,async(snaps)=>{
+      const postData = await Promise.all(
+        snaps.docs.map(async (snap)=>{
+          const postSnap = snap.data()
+          const userSnap =  await getDoc(doc(db,"users",postSnap.authId));
+
+          const userData = userSnap.data();
+
+          return {
+            postId: snap.id,
+                ...postSnap,
+                icon:userData?.icon,
+                name:userData?.name
+          }
+
+        })
+      )
+      
+      setPosts(postData as Post[])
     })
     return unsubscribe
   },[])
+
+
+   
 
   const commentSection = (postId:string)=>{
     navigate(`/postList/comments/${postId}`)
