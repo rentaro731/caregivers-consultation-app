@@ -2,9 +2,11 @@ import { useState } from "react";
 import {useUserContext} from "../../shared/context/UserContext";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import styles from "../../css/createPost.module.css";
+import type { CareRecipientInfoType } from "../../shared/types/types";
+import { conditionCategory } from "../../shared/constants/constants";
 
 
 type PostContentValueType = {
@@ -20,11 +22,15 @@ const postContentValue: PostContentValueType = {
 
 
 export const CreatePost = () => {
-  const { user, profile} = useUserContext();
+  const { user } = useUserContext();
   const navigate = useNavigate();
+  const location= useLocation();
 
   const [postContent, setPostContent] = useState<PostContentValueType>(postContentValue)
   const [postContentErrors, setPostContentErrors] = useState<PostContentErrorType>({});
+
+  const careRecipient = location.state?.careRecipient as CareRecipientInfoType |undefined
+  const careRecipientNumber = location.state?.careRecipientNumber as number | undefined;
 
 
   const validates = (values: PostContentValueType) => {
@@ -52,9 +58,9 @@ export const CreatePost = () => {
       const ref = collection(db,"posts")
       await addDoc(ref,{
         authId: user?.id,
-        icon: profile?.icon,
-        name: profile?.name,
         text: postContent.text,
+        careRecipientId: careRecipient?.id,
+        conditionCategory:careRecipient?.conditionCategory ?? [],
         commentCount:0,
         empathyCount:0,
         createdAt:serverTimestamp()
@@ -69,6 +75,9 @@ export const CreatePost = () => {
    }
   }
 
+  const handleSelectPage=()=>{
+    navigate("/selectCareRecipients")
+  }
 
 
   return(
@@ -79,8 +88,16 @@ export const CreatePost = () => {
         {postContentErrors.text && <p>{postContentErrors.text}</p>}
         <br />
         <div className={styles.postButtonContainer}>
-        <button type="submit" className={styles.postButton} >投稿</button>
+        <button type="submit" className={styles.postButton}>投稿</button>
         </div>
+        <button type="button" onClick={handleSelectPage} className={styles.selectBtn}>{careRecipient ? "被介護者を変更" : "被介護者を選択"}</button>
+        {careRecipient &&(
+          <>
+          <h5>被介護者{careRecipientNumber} </h5>
+          <p>{careRecipient?.conditionCategory.slice(0,2).map((condition)=>(
+            conditionCategory[condition])).join("、")}</p>
+          </>
+        )}
       </form>
     </div>
   )

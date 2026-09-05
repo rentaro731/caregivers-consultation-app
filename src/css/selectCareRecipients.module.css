@@ -1,0 +1,43 @@
+.container{
+    padding: 10px;
+    margin: 10px;
+}
+
+.careRecipientList{
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+}
+.card{
+    border: 1px solid #dce8df;
+    border-radius: 8px;
+    height: 240px;
+    padding: 4px;
+    flex: 0 0 210px;
+    background-color: #fafcf9;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.header{
+    text-align: center;
+}
+.cardTitle h5{
+    margin: 5px 0;
+}
+.card p{
+    margin: 10px 0;
+}
+.conditionText{
+    height: 70px;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+.selectBtn {
+    background-color: #ffffff;
+    border: 1px solid #cdcdcd;
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 6px 20px;
+    align-self: center;
+}

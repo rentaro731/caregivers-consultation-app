@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../../shared/firebase/firebaseConfig";
 
 import { useUserContext } from "../../shared/context/UserContext";
-import { conditionCategory, genders } from "../../shared/constants/constants";
 import type { CareRecipientInfoType } from "../../shared/types/types";
 
 import styles from "../../css/careRecipientInfo.module.css"
+import { CareRecipientDetail } from "./CareRecipientDetail";
 
 
 
@@ -55,11 +55,7 @@ export const CareRecipientInfo = ()=>{
                         <h5>被介護者{index + 1}</h5>
                         <button className={styles.editBtn} onClick={()=>handleEdit(careRecipient.id)}>編集</button>
                     </div>
-                    <p>年齢: {careRecipient.age}</p>
-                    <p>性別: {careRecipient.gender !== null
-                            ? genders[careRecipient.gender]
-                            : "未設定"}</p>
-                    <p className={styles.conditionText}>症状: {careRecipient.conditionCategory.map((conditions)=>conditionCategory[conditions]).join("、")}</p>
+                    <CareRecipientDetail careRecipient={careRecipient} />
 
                 </div>
             ))}

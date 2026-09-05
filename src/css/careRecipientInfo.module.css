@@ -37,9 +37,6 @@
     margin: 0;
     font-size: 16px;
 }
-.cardHeader p {
-    margin: 10px 0;
-}
 .addBtn,
 .editBtn {
   background-color: white;
@@ -47,9 +44,4 @@
   border-radius: 15px;
   color: #4f9466;
   cursor: pointer;
-}
-.conditionText{
-    max-height: 70px;
-    overflow-y: auto;
-    margin-bottom: 0;
 }
