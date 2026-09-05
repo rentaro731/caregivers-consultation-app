@@ -14,6 +14,8 @@ import { PostListLayout } from "../features/post/PostListLayout";
 import { RequireAuth } from "../features/auth/RequireAuth";
 import { NetworkStatus } from "../shared/network/NetworkStatus";
 import { EditCareRecipientInfo } from "../features/careRecipient/EditCareRecipientInfo";
+import { SelectCareRecipients } from "../features/careRecipient/SelectCareRecipients";
+import { PostCareRecipientDetail } from "../features/careRecipient/PostCareRecipientDetail";
 
 function App() {
   return (
@@ -33,6 +35,9 @@ function App() {
           <Route path="/postList/createPost" element={<CreatePost />} />
           <Route path="/postList/comments/:postId" element={<Comments />} />
           <Route path="/postList/profile" element={<Profile />} />
+          <Route
+          path="/postList/careRecipient/:careRecipientId"
+          element={<PostCareRecipientDetail />}/>
         </Route>
             <Route path="/profile/editProfile" element={
               <RequireAuth>
@@ -48,6 +53,12 @@ function App() {
               <RequireAuth>
               <EditCareRecipientInfo />
               </RequireAuth>} />
+
+            <Route path="/selectCareRecipients" element={
+              <RequireAuth>
+              < SelectCareRecipients/>
+              </RequireAuth>} />
+
 
       </Routes>
     </>

@@ -7,6 +7,7 @@ import { db } from "../../shared/firebase/firebaseConfig";
 import { FaComment,FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import type { Post } from "../../shared/types/types";
+import { conditionCategory } from "../../shared/constants/constants";
 
 
 
@@ -49,6 +50,10 @@ export const PostList = () => {
     navigate(`/postList/comments/${postId}`)
   }
 
+  const handleDetail=(careRecipientId:string)=>{
+    navigate(`/postList/careRecipient/${careRecipientId}`)
+  }
+
   return (
   <main className={styles.container}>
     <div className={styles.header}>
@@ -65,6 +70,14 @@ export const PostList = () => {
         <div className={styles.postHeader}>
           <p className={styles.icon}>{post.icon}</p>
           <p>{post.name}</p>
+          {post.careRecipientId &&(<>
+            <p>
+              被介護者の症状：{post.conditionCategory?.slice(0,2).map((condition)=>(
+            conditionCategory[condition])).join(",")}
+            </p>
+            <button onClick={()=>handleDetail(post.careRecipientId)}>被介護者の詳細</button>
+            </>)}
+
         </div>
         <div className={styles.postText}>
           <p>{post.text}</p>
