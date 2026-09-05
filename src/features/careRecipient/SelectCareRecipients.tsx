@@ -42,13 +42,14 @@ export const SelectCareRecipients=()=>{
                 </div>
                 <div className={styles.careRecipientList}>
                 {careRecipients.map((careRecipient,index)=>(
-                    <div  className={styles.card} key={careRecipient.id}>
+                    <div  className={styles.cardContainer} key={careRecipient.id}>
+                    <div  className={styles.card} >
                         <div className={styles.cardTitle}>
                             <h5>被介護者{index + 1}</h5>
                         </div>
                         <CareRecipientDetail careRecipient={careRecipient} />
-                        <button type="button" className={styles.selectBtn} onClick={()=>handleSelect(careRecipient,index)}>選択</button>
-
+                    </div>
+                    <button type="button" className={styles.selectBtn} onClick={()=>handleSelect(careRecipient,index)}>選択</button>
                     </div>
                 ))}
                 </div>
