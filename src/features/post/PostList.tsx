@@ -8,6 +8,7 @@ import { FaComment,FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import type { Post } from "../../shared/types/types";
 import { conditionCategory } from "../../shared/constants/constants";
+import { PostSearch } from "../search/PostSearch";
 
 
 
@@ -16,6 +17,8 @@ export const PostList = () => {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState<Post[]>([])
+  const [searchedPosts,setSearchedPosts] = useState<Post[]>([])
+  const [isSearched,setIsSearched] = useState(false)
 
   useEffect(()=>{
     const postsQuery =  query(collection(db,"posts"),orderBy("createdAt","desc"))
@@ -54,18 +57,22 @@ export const PostList = () => {
     navigate(`/postList/careRecipient/${careRecipientId}`)
   }
 
+  const handoleBack =()=>{
+    setIsSearched(false)
+  }
+
   return (
   <main className={styles.container}>
     <div className={styles.header}>
       <p className={styles.title}>
         投稿一覧
       </p>
-      <input type="text" placeholder="投稿を検索"  className={styles.searchInput}/>
-      <button className={styles.searchButton}>検索</button>
+      {isSearched && <button onClick={handoleBack}>←</button>}
+      <PostSearch posts={posts} setSearchedPosts={setSearchedPosts} setIsSearched={setIsSearched}/>
     </div>
     <div className={styles.postListScrollArea}>
     <ul className={styles.postList}>
-    {posts.map((post)=>(
+    {(isSearched ? searchedPosts : posts).map((post)=>(
       <li key={post.postId}className={styles.postItem}>
         <div className={styles.postHeader}>
           <p className={styles.icon}>{post.icon}</p>
