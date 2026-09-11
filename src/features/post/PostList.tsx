@@ -27,15 +27,31 @@ export const PostList = () => {
       const postData = await Promise.all(
         snaps.docs.map(async (snap)=>{
           const postSnap = snap.data()
+
           const userSnap =  await getDoc(doc(db,"users",postSnap.authId));
 
+
+
           const userData = userSnap.data();
+          if(postSnap?.careRecipientId){
+            const careRecipientSnap = await getDoc(doc(db,"careRecipients",postSnap.careRecipientId)) 
+            const careRecipientData = careRecipientSnap.data()
+            return {
+              postId: snap.id,
+                  ...postSnap,
+                  icon:userData?.icon,
+                  name:userData?.name,
+                  careRecipientAge:careRecipientData?.age,
+                  careRecipientGender:careRecipientData?.gender
+            }
+          }
 
           return {
             postId: snap.id,
                 ...postSnap,
                 icon:userData?.icon,
-                name:userData?.name
+                name:userData?.name,
+
           }
 
         })
@@ -82,7 +98,7 @@ export const PostList = () => {
               被介護者の症状：{post.conditionCategory?.slice(0,2).map((condition)=>(
             conditionCategory[condition])).join(",")}
             </p>
-            <button onClick={()=>handleDetail(post.careRecipientId)}>被介護者の詳細</button>
+            <button onClick={()=>{if(post.careRecipientId){handleDetail(post.careRecipientId)}}}>被介護者の詳細</button>
             </>)}
 
         </div>
