@@ -3,7 +3,9 @@ import styles from "../../css/postSearch.module.css";
 import type { Post } from "../../shared/types/types";
 
 export const PostSearch = ({posts,setSearchedPosts,setIsSearched}:
-    {posts:Post[],setSearchedPosts:React.Dispatch<React.SetStateAction<Post[]>>,setIsSearched:React.Dispatch<React.SetStateAction<boolean>>}) => {
+    {posts:Post[],
+    setSearchedPosts:React.Dispatch<React.SetStateAction<Post[]>>,
+    setIsSearched:React.Dispatch<React.SetStateAction<boolean>>}) => {
 
     const [searchText,setSearchText] = useState("");
 
@@ -18,7 +20,7 @@ export const PostSearch = ({posts,setSearchedPosts,setIsSearched}:
         const keyWords = searchText.trim().split(/\s+/)
         const filteredPosts = posts.filter((post)=>{
             return keyWords.every((keyWord)=>{
-                return post.text.includes(keyWord)
+                return post.text.includes(keyWord)|| post.name.includes(keyWord)
             })
         })
         setSearchedPosts(filteredPosts)
