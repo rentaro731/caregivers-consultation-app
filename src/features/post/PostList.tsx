@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../../css/postList.module.css";
 
-import { collection,  doc,  getDoc,  onSnapshot, orderBy, query,  } from "firebase/firestore";
+import { collection,  doc,  getDoc,  increment,  onSnapshot, orderBy, query, runTransaction, serverTimestamp} from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
 
 import { FaComment,FaHeart } from "react-icons/fa";
@@ -9,16 +9,19 @@ import { useNavigate } from "react-router-dom";
 import type { Post } from "../../shared/types/types";
 import { conditionCategory } from "../../shared/constants/constants";
 import { PostSearch } from "../search/PostSearch";
+import { useUserContext } from "../../shared/context/UserContext";
 
 
 
 export const PostList = () => {
 
   const navigate = useNavigate();
-
+  const { user } = useUserContext();
+ 
   const [posts, setPosts] = useState<Post[]>([])
   const [searchedPosts,setSearchedPosts] = useState<Post[]>([])
   const [isSearched,setIsSearched] = useState(false)
+
 
   useEffect(()=>{
     const postsQuery =  query(collection(db,"posts"),orderBy("createdAt","desc"))
@@ -61,6 +64,25 @@ export const PostList = () => {
     setIsSearched(false)
   }
 
+  const handleEmpathyCounts = async (postId:string)=>{
+    if(!user?.id)return
+    const reactionRef = doc(db,"posts",postId,"reaction",user.id)
+
+    await runTransaction (db, async(transaction)=>{
+      const reactionUser = await transaction.get(reactionRef)
+
+      if(reactionUser.exists()) return
+
+      transaction.set(reactionRef,{
+        createdAt:serverTimestamp()
+      })
+      
+      transaction.update(doc(db,"posts",postId),{
+        empathyCount:increment(1)
+      })
+    })
+  }
+
   return (
   <main className={styles.container}>
     <div className={styles.header}>
@@ -91,7 +113,7 @@ export const PostList = () => {
         </div>
          <div className={styles.postFooter}>
          <button onClick={()=>commentSection(post.postId)} className={styles.commentIcon}><FaComment/>{post.commentCount}</button>
-         <button className={styles.empathyIcon}><FaHeart />{post.empathyCount}</button>
+         <button className={styles.empathyIcon} onClick={()=>handleEmpathyCounts(post.postId)} ><FaHeart />{post.empathyCount}</button>
          </div>
         
       </li>
