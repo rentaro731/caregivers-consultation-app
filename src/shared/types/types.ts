@@ -16,11 +16,13 @@ export type Post = {
   commentCount:number,
   createdAt:Timestamp,
   empathyCount:number,
-  careRecipientId:string,
-  conditionCategory:number[],
+  careRecipientId?:string,
+  conditionCategory?:number[],
   icon:string,
   name:string,
-  text:string
+  text:string,
+  careRecipientAge?:string,
+  careRecipientGender?:number|null
 }
 
 export type CareRecipientInfoType={
