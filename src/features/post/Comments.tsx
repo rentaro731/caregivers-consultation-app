@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { useParams } from "react-router-dom";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../../shared/firebase/firebaseConfig";
 
 import type { Post } from "../../shared/types/types";
@@ -15,25 +15,40 @@ export const Comments = () => {
   const [post,setPost]=useState<Post| null>(null)
 
   const {postId} = useParams();
+  const navigate = useNavigate();
 
   /* 投稿の詳細を取得 (commentの取得は CommentsItemコンポーネント)*/
   useEffect(()=>{
-    const getPost = async()=>{
-      if(!postId)return;
-      const docRef = doc(db,"posts",postId)
-      const postSnap = await getDoc(docRef)
+    if(!postId)return;
+
+    const unsub = onSnapshot(doc(db,"posts",postId),async(postSnap)=>{
+
+      if(!postSnap.exists()) return
+      const postSnapData= postSnap.data()
+
+      const userSnap =  await getDoc(doc(db,"users",postSnapData.authId));
+
+      const userData = userSnap.data();
+
       if(postSnap.exists()){
         setPost({
           postId: postSnap.id,
-          ...postSnap.data(),
+          ...postSnapData,
+          icon:userData?.icon,
+          name:userData?.name
         }as Post)
-      }
-    }
-    getPost();
+      }}) 
+
+      return()=>unsub()
+
   },[postId])
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+      <button onClick={()=>navigate(-1)} className={styles.backBtn} >←</button>
       <h1 className={styles.title}>投稿の詳細</h1>
+      </div>
+      
         {post && (
           <div className={styles.postItem}>
           <div className={styles.postHeader}>

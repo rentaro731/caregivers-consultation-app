@@ -1,4 +1,4 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore"
+import {  collection, doc, increment, serverTimestamp,writeBatch } from "firebase/firestore"
 import { useState } from "react"
 import { db } from "../../shared/firebase/firebaseConfig"
 import { useUserContext } from "../../shared/context/UserContext"
@@ -32,13 +32,29 @@ export const CommentForm =({postId}:{postId:string})=>{
             setFormError(error)
             return;
         }
-        await addDoc(collection(db,"posts",postId,"comments"),{
-            authId:user?.id,
+
+        if(!user?.id)return
+
+        const batch = writeBatch(db)
+
+        const commentRef = doc(collection(db,"posts",postId,"comments"))
+
+        const countRef =  doc(db,"posts",postId)
+
+        batch.set(commentRef,{
+            authId:user.id,
             comment:comment,
             icon:profile?.icon,
             name:profile?.name,
-            createdAt:serverTimestamp(),
-        })
+            createdAt:serverTimestamp(),})
+           
+        batch.update(countRef,{
+            commentCount:increment(1)
+        })    
+
+        await batch.commit()
+    
+
 
         setComment("")
         setFormError("")

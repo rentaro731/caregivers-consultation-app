@@ -3,13 +3,27 @@
     display: flex;
     flex-direction: column;
 }
-.title{
+.header{
+    position: relative;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.title{
     font-size: 20px;
     font-weight: bold;
     color: darkcyan;
-    justify-content: center;
-    align-items: center;
+}
+.backBtn{
+    position: absolute;
+    left: 4px;
+    border: none;
+    background-color: #ffffff;
+    font-size: 15px;
+    cursor: pointer;
+    
+
 }
 .postItem{
     display: flex;
