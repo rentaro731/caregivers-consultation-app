@@ -1,0 +1,64 @@
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth, db } from "../../shared/firebase/firebaseConfig";
+import { setDoc, doc, serverTimestamp, getDoc } from "firebase/firestore";
+import { FIREBASE_ERROR } from "../../shared/constants/constants";
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+export const GoogleLogin = () => {
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setMessage("");
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: "select_account",
+    });
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          name: null,
+          bio: null,
+          icon: null,
+          createdAt: serverTimestamp(),
+        });
+        navigate("/profile/editProfile");
+        return;
+      }
+      navigate("/postList");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const err = error as { code: string };
+        if (err.code === "auth/popup-closed-by-user") {
+          setMessage(FIREBASE_ERROR.GOOGLE_LOGIN_CANCELLED);
+          return;
+        }
+        if (err.code === "auth/internal-error") {
+          setMessage(FIREBASE_ERROR.NETWORK_ERROR);
+          return;
+        }
+      }
+      setMessage(FIREBASE_ERROR.SERVER_ERROR);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
+    <>
+      <button onClick={handleGoogleLogin} disabled={loading}>
+        {loading ? "ログイン中..." : "Googleアカウントでログイン"}
+      </button>
+      {message && <p>{message}</p>}
+    </>
+  );
+};

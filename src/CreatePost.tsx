@@ -1,3 +1,0 @@
-export const CreatePost = () => {
-  return <h1>Create a New Post</h1>;
-};

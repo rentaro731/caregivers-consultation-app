@@ -1,0 +1,57 @@
+.postListContainer {
+  background-color: rgb(255, 255, 255);
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  grid-template-rows: 1fr;
+}
+.categoryTitle {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sidebar {
+  width: 150px;
+  background-color: #e7f5dd;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.navItem {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(155, 159, 157);
+  padding: 8px;
+  display: grid;
+  place-items: center;
+  height: 40px;
+  width: 125px;
+  padding: 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: transparent;
+}
+.navItem:hover {
+  background-color: #bbd3b1;
+}
+.logout {
+  background-color: transparent;
+  color: rgb(155, 159, 157);
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: auto;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  margin-bottom: 4px;
+}
+.logout:hover {
+  background-color: #bbd3b1;
+}

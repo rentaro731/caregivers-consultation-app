@@ -1,0 +1,18 @@
+.conditionText{
+    max-height: 70px;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+.detail{
+    font-size: 16px;
+}
+.large p {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+.conditionTextlarge{
+    max-height: none;
+    overflow-y: visible;
+}

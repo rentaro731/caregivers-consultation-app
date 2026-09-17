@@ -1,0 +1,144 @@
+import { useState } from "react";
+import { auth, db } from "../../shared/firebase/firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+
+import type { FormValues, FormErrorType } from "../../shared/types/types";
+import {
+  ERROR_MESSAGES,
+  EMAIL_REGEX,
+  FIREBASE_ERROR,
+  INITIAL_VALUES,
+} from "../../shared/constants/constants";
+
+export const SignUp = () => {
+  const [formValues, setFormValues] = useState<FormValues>(INITIAL_VALUES);
+  const [sending, setSending] = useState(false);
+  const [formErrors, setFormErrors] = useState<FormErrorType>({});
+  const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+
+  //バリデーションチェック
+  const validates = (values: FormValues) => {
+    const errors: FormErrorType = {};
+
+    if (!values.email) {
+      errors.email = ERROR_MESSAGES.EMAIL_REQUIRED;
+    }
+    if (values.email && !EMAIL_REGEX.test(values.email)) {
+      errors.email = ERROR_MESSAGES.INVALID_EMAIL;
+    }
+    if (!values.password) {
+      errors.password = ERROR_MESSAGES.PASSWORD_REQUIRED;
+    }
+    if (
+      values.password &&
+      (values.password.length < 6 || values.password.length > 16)
+    ) {
+      errors.password = ERROR_MESSAGES.PASSWORD_NUMBER_LIMIT;
+    }
+
+    return errors;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+    setFormErrors({});
+    setMessage("");
+  };
+  //ユーザー登録
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const validationErrors = validates(formValues);
+    if (Object.keys(validationErrors).length > 0) {
+      setFormErrors(validationErrors);
+      setMessage("");
+      return;
+    }
+    setSending(true);
+    try {
+      //authにユーザー登録
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formValues.email,
+        formValues.password,
+      );
+      // firestoreにユーザーデータ保存
+      const uid = userCredential.user.uid;
+
+      await setDoc(doc(db, "users", uid), {
+        name: null,
+        bio: null,
+        icon:null,
+        createdAt: serverTimestamp(),
+      });
+      setFormValues(INITIAL_VALUES);
+      setMessage("ユーザー登録が完了しました。");
+      navigate("/login");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const err = error as { code: string };
+        if (err.code === "auth/email-already-in-use") {
+          setMessage(FIREBASE_ERROR.EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL);
+        }
+        if (err.code === "auth/network-request-failed") {
+          setMessage(FIREBASE_ERROR.NETWORK_ERROR);
+        }
+        return;
+      }
+      setMessage(FIREBASE_ERROR.SERVER_ERROR);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const togglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit} noValidate>
+        <h1>新規登録</h1>
+        <label htmlFor="email">メールアドレス</label>
+        <input
+          type="email"
+          placeholder="メールアドレス"
+          value={formValues.email}
+          name="email"
+          id="email"
+          onChange={handleChange}
+        />
+        {formErrors.email && <p>{formErrors.email}</p>}
+        <br />
+        <label htmlFor="password">パスワード</label>
+
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="パスワード"
+          value={formValues.password}
+          name="password"
+          id="password"
+          onChange={handleChange}
+        />
+        <button type="button" onClick={togglePassword}>
+          {showPassword ? "非表示" : "表示"}
+        </button>
+        {formErrors.password && <p>{formErrors.password}</p>}
+        <br />
+        <button type="submit" disabled={sending}>
+          登録
+        </button>
+      </form>
+      {message && <p>{message}</p>}
+      <br />
+      <button onClick={() => navigate("/googleLogin")}>
+        Googleアカウントでログイン
+      </button>
+    </>
+  );
+};

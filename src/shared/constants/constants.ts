@@ -1,0 +1,31 @@
+import type { FormValues } from "../types/types";
+
+export const INITIAL_VALUES: FormValues = {
+  email: "",
+  password: "",
+};
+
+//エラーメッセージ
+export const ERROR_MESSAGES = {
+  NAME_REQUIRED: "ニックネームを入力してください",
+  EMAIL_REQUIRED: "メールアドレスを入力してください",
+  PASSWORD_REQUIRED: "パスワードを入力してください",
+  BIO_REQUIRED: "自己紹介文を入力してください",
+  INVALID_EMAIL: "メールアドレスの形式が正しくありません",
+  PASSWORD_NUMBER_LIMIT: "パスワードは6文字以上16文字以下で入力してください",
+  ICON_REQUIRED: "アイコンを選択してください"
+};
+export const EMAIL_REGEX =
+  /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+
+export const FIREBASE_ERROR = {
+  SERVER_ERROR: "登録に失敗しました。再度お試しください。",
+  EMAIL_MESSAGE_WRONG_PASSWORD_OR_EMAIL:
+    "メールアドレスまたはパスワードが間違っています。",
+  NETWORK_ERROR:
+    "通信エラーが発生しました。インターネット接続を確認してください。",
+  GOOGLE_LOGIN_CANCELLED: "Googleログインがキャンセルされました。",
+};
+
+export const genders = ["男性","女性","その他"] 
+export const conditionCategory = ["認知症","脳血管障害","運動機能の低下","視覚・聴覚の低下","排泄の問題","食事・嚥下の問題","寝たきり","その他"]

@@ -1,0 +1,41 @@
+.commentListArea{
+    margin: 0;
+    padding: 0;
+}
+
+.commntList{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+}
+.commentHeader{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.icon {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #020202;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+.name {
+    margin: 0;
+}
+.time{
+    margin: 0;
+}
+.commentText{
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 5px 5px;
+}
+
