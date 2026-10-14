@@ -148,7 +148,7 @@ export const Login = () => {
       </form>
       {message && <p>{message}</p>}
       <br />
-      <button onClick={() => navigate("/googleLogin")}>
+      <button onClick={() => navigate("/googleLogin")} className={styles.googleBtn}>
         Googleアカウントでログイン
       </button>
     </div>

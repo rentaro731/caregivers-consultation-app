@@ -82,7 +82,10 @@ background: linear-gradient(
 .submitBtn{
     width: 200px;
     height: 40px;
-    align-self: center;
-     
+    align-self: center;    
+}
+.googleBtn{
+    width: 200px;
+    height: 40px;
 }
 
