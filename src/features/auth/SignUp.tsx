@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
+import styles from "./css/signUp.module.css"
+
 import type { FormValues, FormErrorType } from "../../shared/types/types";
 import {
   ERROR_MESSAGES,
@@ -101,10 +103,11 @@ export const SignUp = () => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} noValidate>
-        <h1>新規登録</h1>
-        <label htmlFor="email">メールアドレス</label>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.signUpForm} noValidate>
+        <h1 className={styles.title}>新規登録</h1>
+        <label htmlFor="email" className={styles.emailLabel}>メールアドレス</label>
+        <div className={styles.inputEmailContainer}>
         <input
           type="email"
           placeholder="メールアドレス"
@@ -112,11 +115,14 @@ export const SignUp = () => {
           name="email"
           id="email"
           onChange={handleChange}
+          className={styles.inputEmail}
         />
+        </div>
         {formErrors.email && <p>{formErrors.email}</p>}
         <br />
-        <label htmlFor="password">パスワード</label>
-
+        <label htmlFor="password" className={styles.passwordLabel}>パスワード</label>
+        
+        <div className={styles.inputPasswordContainer}>
         <input
           type={showPassword ? "text" : "password"}
           placeholder="パスワード"
@@ -124,21 +130,23 @@ export const SignUp = () => {
           name="password"
           id="password"
           onChange={handleChange}
+          className={styles.inputPassword}
         />
-        <button type="button" onClick={togglePassword}>
+        <button type="button" onClick={togglePassword} className={styles.showPassword}>
           {showPassword ? "非表示" : "表示"}
         </button>
+        </div>
         {formErrors.password && <p>{formErrors.password}</p>}
         <br />
-        <button type="submit" disabled={sending}>
+        <button type="submit" disabled={sending} className={styles.submitBtn}>
           登録
         </button>
       </form>
       {message && <p>{message}</p>}
       <br />
-      <button onClick={() => navigate("/googleLogin")}>
+      <button onClick={() => navigate("/googleLogin")} className={styles.googleLogin}>
         Googleアカウントでログイン
       </button>
-    </>
+    </div>
   );
 };

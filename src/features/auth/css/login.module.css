@@ -1,0 +1,91 @@
+.container{
+width: 100%;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+background: linear-gradient(
+    135deg,
+    #7565b5,
+    #69418b
+); 
+}
+.loginForm{ 
+    width: 100%;
+    max-width: 500px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    padding: 40px 30px;
+    border: 1px solid #aeaaaa;
+    border-radius: 8px;
+
+    box-shadow: 0 15px 30px  rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+.title{
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+}
+.email{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+
+}
+
+.password{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+
+}
+.inputEmailContainer,
+.inputPasswordContainer{
+    display: flex;
+    position: relative;
+}
+
+.inputEmail,
+.inputPassword{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.inputEmail:focus,
+.inputPassword:focus{
+    outline: none;
+    border-color: #7565b5;
+}
+
+.inputEmail{
+    margin-bottom: 20px;
+}
+.inputPasswordContainer{
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+
+}
+.inputPassword{
+    flex: 1;
+    min-width: 0;
+}
+.submitBtn{
+    width: 200px;
+    height: 40px;
+    align-self: center;    
+}
+.googleBtn{
+    width: 200px;
+    height: 40px;
+}
+

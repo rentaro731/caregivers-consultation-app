@@ -3,6 +3,8 @@ import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore"
 import { db } from "../../shared/firebase/firebaseConfig"
 import { useUserContext } from "../../shared/context/UserContext"
 
+import styles from "./css/EditCareRecipientInfo.module.css"
+
 import type { CareRecipientInfoType } from "../../shared/types/types"
 import { conditionCategory, FIREBASE_ERROR, genders } from "../../shared/constants/constants"
 import { useNavigate, useParams } from "react-router-dom"
@@ -143,17 +145,19 @@ export const EditCareRecipientInfo=()=>{
 
 
     return(
-        <div>
-            <h2>被介護者情報の編集</h2>
+        <div className={styles.container}>
+            
 
-            <form onSubmit={handleSubmit}> 
-                <label htmlFor="age">年齢</label>
-                <input type="text" name="age" value={careRecipientFormValue.age} placeholder="年齢を入力" onChange={handleChange}/>
+            <form onSubmit={handleSubmit} className={styles.editForm}> 
+            <h2 className={styles.title}>{id? "被介護者情報の編集":"被介護者情報の登録"}</h2>
+                <label htmlFor="age" className={styles.ageLabel}>年齢</label>
+                <input type="text" name="age" value={careRecipientFormValue.age} placeholder="年齢を入力" onChange={handleChange} className={styles.inputAge}/>
+
                 {careRecipientFormErrors.age && <p>{careRecipientFormErrors.age}</p>}
                 <br />
 
-                <label htmlFor="gender">性別を選択</label>
-                <select name="gender" id="gender" value={careRecipientFormValue.gender??""} onChange={handleSelectGender}>
+                <label htmlFor="gender" className={styles.genderLabel}>性別を選択</label>
+                <select name="gender" id="gender" value={careRecipientFormValue.gender??""} onChange={handleSelectGender} className={styles.genderSelect}>
                 <option value="">選択してください</option>
                     {genders.map((gender,index)=>(
                         <option value={index} key={index}>{gender}</option>
@@ -161,17 +165,19 @@ export const EditCareRecipientInfo=()=>{
                 </select>
                 {careRecipientFormErrors.gender && <p>{careRecipientFormErrors.gender}</p>}
                 <br />
-                <label htmlFor="conditionCategory">症状を選択</label>
+                <label htmlFor="conditionCategory" className={styles.conditionCategoryLabel}>症状を選択</label>
+                <div className={styles.conditionContainer}>
                 {conditionCategory.map((condition,index)=>(
-                    <label key={index}>
+                    <label key={index} className={styles.conditionItem}> 
                     <input type="checkbox" value={index} checked={careRecipientFormValue.conditionCategory.includes(index)} onChange={handleCheck}/>
                     {condition}
                     </label>
                 ))}
+                </div>
                 {careRecipientFormErrors.conditionCategory && <p>{careRecipientFormErrors.conditionCategory}</p>}
                 <br />
 
-                <button type="submit" disabled={sending} >登録</button>
+                <button type="submit" disabled={sending} className={styles.submitBtn}>{sending ? "保存中..." : id ? "変更を保存" : "登録"}</button>
             </form>
             {messsage && <p>{messsage}</p>}
         </div>

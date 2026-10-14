@@ -3,6 +3,7 @@ import { auth, db } from "../../shared/firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
+import styles from "./css/login.module.css"
 import type { FormValues, FormErrorType } from "../../shared/types/types";
 import {
   ERROR_MESSAGES,
@@ -107,11 +108,13 @@ export const Login = () => {
   };
 
   return (
-    <>
-      <h1>ログイン</h1>
-      <form onSubmit={onLogin} noValidate>
-        <label htmlFor="email">メールアドレス</label>
+    <div className={styles.container}>
+      <form className={styles.loginForm} onSubmit={onLogin} noValidate>
+      <h1 className={styles.title}>ログイン</h1>
+        <label htmlFor="email" className={styles.email}>メールアドレス</label>
+        <div className={styles.inputEmailContainer}>
         <input
+          className={styles.inputEmail}
           type="email"
           id="email"
           placeholder="メールアドレス"
@@ -119,10 +122,13 @@ export const Login = () => {
           value={inputValues.email}
           onChange={handleChange}
         />
+        </div>
         {inputErrors.email && <p>{inputErrors.email}</p>}
         <br />
-        <label htmlFor="password">パスワード</label>
+        <label htmlFor="password" className={styles.password}>パスワード</label>
+        <div className={styles.inputPasswordContainer}>
         <input
+          className={styles.inputPassword}
           type={showPassword ? "text" : "password"}
           id="password"
           placeholder="パスワード"
@@ -130,20 +136,21 @@ export const Login = () => {
           value={inputValues.password}
           onChange={handleChange}
         />
-        <button type="button" onClick={togglePassword}>
+        <button type="button" onClick={togglePassword} className={styles.showPasswordBtn}>
           {showPassword ? "非表示" : "表示"}
         </button>
+        </div>
         {inputErrors.password && <p>{inputErrors.password}</p>}
         <br />
-        <button type="submit" disabled={sending}>
+        <button type="submit" disabled={sending} className={styles.submitBtn}>
           ログイン
         </button>
       </form>
       {message && <p>{message}</p>}
       <br />
-      <button onClick={() => navigate("/googleLogin")}>
+      <button onClick={() => navigate("/googleLogin")} className={styles.googleBtn}>
         Googleアカウントでログイン
       </button>
-    </>
+    </div>
   );
 };

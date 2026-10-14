@@ -1,0 +1,88 @@
+.container{
+    min-height: 100vh;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        135deg,
+        #7565b5,
+        #69418b
+    )
+}
+.title{
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid black;
+    margin-bottom: 30px;
+}
+.editForm{
+    width: 100%;
+    max-width: 550px;
+    padding: 40px;
+    box-sizing: border-box;
+    border: 1px solid #aeaaaa;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+}
+.ageLabel,
+.genderLabel,
+.conditionCategoryLabel{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+.inputAge,
+.genderSelect{
+    width: 100%;
+    height: 45px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.inputAge,
+.genderSelect:focus{
+    outline: none;
+    border-color: #7565b5;
+}
+.conditionContainer{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+}
+.conditionItem{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+}
+.conditionItem:has(input:checked){
+    background-color: #f0ebfa;
+    border-color: #7565b5;
+}
+
+.submitBtn{
+    width: 200px;
+    height: 40px;
+    color: white;
+    font-weight: bold;
+    align-self: center;
+    background-color: #7565b5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.submitBtn:hover{
+    background-color: #69418b;
+}
