@@ -4,6 +4,7 @@ import { useUserContext } from "../../shared/context/UserContext";
 import { collection, doc, getDoc, getDocs, query, setDoc, where, writeBatch } from "firebase/firestore";
 import { db } from "../../shared/firebase/firebaseConfig";
 import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./css/editProfile.module.css"
 
 
 type ProfileFormValues = {
@@ -163,17 +164,20 @@ export const EditProfile = () => {
   }
 
   return (
-    <>
-      <h1>プロフィール</h1>
-      <form onSubmit={handleSubmit}>
-      <label htmlFor="icon">アイコン</label>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.editForm}>
+      <h1 className={styles.title}>プロフィール</h1>
+      <label htmlFor="icon" className={styles.iconLabel}>アイコン</label>
+      <div className={styles.iconContainer}>
       {icons.map((icon)=>(
-        <button key={icon} type="button" onClick={()=>handleSelectIcon(icon)}>{icon}</button>
+        <button key={icon} type="button" onClick={()=>handleSelectIcon(icon)} 
+        className={`${styles.iconBtn} ${profileValues.icon === icon ? styles.selectIcon:""}`}>{icon}</button>
       ))}
-      <p>選択中：{profileValues.icon}</p>
+      </div>
+
       {profileErrors.icon && <p>{profileErrors.icon}</p>}
         
-        <label htmlFor="name">ニックネーム</label>
+        <label htmlFor="name" className={styles.nameLabel}>ニックネーム</label>
         <input
           type="text"
           placeholder="ニックネームを入力"
@@ -181,10 +185,11 @@ export const EditProfile = () => {
           name="name"
           id="name"
           onChange={handleChange}
+          className={styles.inputName}
         />
         {profileErrors.name && <p>{profileErrors.name}</p>}
         <br />
-        <label htmlFor="bio">ひとこと</label>
+        <label htmlFor="bio" className={styles.bioLabel}>ひとこと</label>
         <input
           type="text"
           placeholder="ひとこと"
@@ -192,14 +197,15 @@ export const EditProfile = () => {
           name="bio"
           id="bio"
           onChange={handleChange}
+          className={styles.inputBio}
         />
         {profileErrors.bio && <p>{profileErrors.bio}</p>}
         <br />
-        <button type="submit" disabled={sending}>
+        <button type="submit" disabled={sending} className={styles.submitBtn}>
           登録
         </button>
       </form>
       {message && <p>{message}</p>}
-    </>
+    </div>
   );
 };
