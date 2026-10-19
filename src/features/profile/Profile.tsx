@@ -33,14 +33,12 @@ export const Profile = () => {
           <p className={styles.authTitle}>メールアドレス</p>
           <p className={styles.authValue}>{user?.email}</p>
           </div>
-          <button className={styles.ChangeBtn}>変更</button>
         </div>
         <div className={styles.authRow}>
         <div className={styles.authContent}>
           <p className={styles.authTitle}>パスワード</p>
           <p  className={styles.authValue}>＊＊＊＊＊＊＊＊</p>
         </div>
-        <button className={styles.ChangeBtn}>変更</button>
         </div>
       </div>
       <CareRecipientInfo/>
